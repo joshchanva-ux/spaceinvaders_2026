@@ -1,7 +1,8 @@
-package spaceinvaders;
+package spaceinvaders.actions;
 
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
+import spaceinvaders.ui.SpaceInvadersUI;
 
 import java.awt.*;
 import java.util.ArrayList;

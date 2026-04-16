@@ -1,7 +1,8 @@
-package spaceinvaders;
+package spaceinvaders.service;
 
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
+import spaceinvaders.ui.SpaceInvadersUI;
 
 import java.awt.*;
 import java.util.Iterator;
