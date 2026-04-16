@@ -7,6 +7,8 @@ import spaceinvaders.characters.Invader;
 import spaceinvaders.service.GameCalculator;
 import spaceinvaders.service.ImageSelection;
 
+import spaceinvaders.ui.menu.AppMenuBar;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
     private int shooter_height = 60;
     private int shooter_X_Coordinate = 200;
     private GameCalculator gameCalculator;
+    private final AppMenuBar appMenuBar;
     public static int breakpointcounter = 0;
 
     // Constructor
@@ -41,6 +44,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
         paintingActions = new PaintingActions();
+        appMenuBar = new AppMenuBar();
         // For debugging
 
         // Set images
@@ -88,6 +92,10 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
 
         // Draw bullets (bullets)
         paintingActions.drawBullets(g, this);
+    }
+
+    public JMenuBar getAppMenuBar() {
+        return appMenuBar.getMenuBar();
     }
 
     public int getShooterWidth() {
