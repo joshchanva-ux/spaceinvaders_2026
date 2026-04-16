@@ -73,7 +73,7 @@ public class GameCalculator extends Thread {
 
     private void spawnNewInvaders() {
         synchronized (game) {
-            if (game.random.nextInt(100) < 2) {
+            if (game.getWidth() > 0 && game.random.nextInt(100) < 2) {
                 int x = game.random.nextInt(game.getWidth());
                 game.invaders.add(new Invader(x, 0, 40));
             }
