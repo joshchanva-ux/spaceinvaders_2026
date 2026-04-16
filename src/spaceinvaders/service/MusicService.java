@@ -25,6 +25,8 @@ import java.util.concurrent.Executors;
  */
 public class MusicService {
 
+    private static final String DEFAULT_TRACK = "/spaceinvaders/resources/music/dream-protocol.wav";
+
     private final ExecutorService audioThread;
     private Clip currentClip;
 
@@ -34,6 +36,7 @@ public class MusicService {
             t.setDaemon(true);
             return t;
         });
+        playResource(DEFAULT_TRACK);
     }
 
     /**
