@@ -53,7 +53,7 @@ public class AppMenuBar {
     private JMenuBar createMenuBar() {
         JMenuBar bar = new JMenuBar();
         // Add new menus here, e.g.:
-        // bar.add(new MusicMenu().getMenu());
+        bar.add(new MusicMenu().getMenu());
         // bar.add(new ShooterMenu().getMenu());
         // bar.add(new InvaderMenu().getMenu());
         // bar.add(new BulletMenu().getMenu());
