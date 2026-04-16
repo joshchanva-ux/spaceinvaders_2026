@@ -27,6 +27,10 @@ public class MusicMenu {
         return menu;
     }
 
+    public void startDefaultMusic() {
+        musicService.playDefaultTrack();
+    }
+
     private JMenu createMenu() {
         JMenu musicMenu = new JMenu("Music");
 

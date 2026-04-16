@@ -55,6 +55,9 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         // Start the game calculator thread for position/collision updates
         gameCalculator = new GameCalculator(this);
         gameCalculator.start();
+
+        // Start background music alongside the UI
+        appMenuBar.startDefaultMusic();
         
         // Start the repaint timer (UI thread)
         repaintTimer.start();

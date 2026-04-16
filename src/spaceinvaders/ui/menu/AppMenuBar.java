@@ -41,8 +41,10 @@ import javax.swing.JMenuBar;
 public class AppMenuBar {
 
     private final JMenuBar menuBar;
+    private final MusicMenu musicMenu;
 
     public AppMenuBar() {
+        musicMenu = new MusicMenu();
         menuBar = createMenuBar();
     }
 
@@ -50,10 +52,13 @@ public class AppMenuBar {
         return menuBar;
     }
 
+    public void startDefaultMusic() {
+        musicMenu.startDefaultMusic();
+    }
+
     private JMenuBar createMenuBar() {
         JMenuBar bar = new JMenuBar();
-        // Add new menus here, e.g.:
-        bar.add(new MusicMenu().getMenu());
+        bar.add(musicMenu.getMenu());
         // bar.add(new ShooterMenu().getMenu());
         // bar.add(new InvaderMenu().getMenu());
         // bar.add(new BulletMenu().getMenu());

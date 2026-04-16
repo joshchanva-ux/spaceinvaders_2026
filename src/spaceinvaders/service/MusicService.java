@@ -36,6 +36,10 @@ public class MusicService {
             t.setDaemon(true);
             return t;
         });
+    }
+
+    /** Starts the default background track. */
+    public void playDefaultTrack() {
         playResource(DEFAULT_TRACK);
     }
 
