@@ -88,7 +88,8 @@ public class GameCalculator extends Thread {
                 Invader invader = invaderIterator.next();
                 int y = invader.getY();
                 invader.setY(y + 2);
-                if (invader.getY() > game.getHeight()) {
+                if (invader.getY() + invader.getSize() >= game.getHeight() - game.getShooterHeight()) {
+                    game.modeManager.getCurrentMode().onInvaderReachesShooter(game);
                     invaderIterator.remove();
                 }
             }
