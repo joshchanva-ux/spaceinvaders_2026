@@ -44,7 +44,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
         paintingActions = new PaintingActions();
-        appMenuBar = new AppMenuBar();
+        appMenuBar = new AppMenuBar(this);
         // For debugging
 
         // Set images
@@ -112,6 +112,14 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
 
     public void setShooter_X_Coordinate(int shooter_X) {
         shooter_X_Coordinate = shooter_X;
+    }
+
+    public void setShooterImage(Image shooterImage) {
+        imageSelection.setShooterImage(shooterImage);
+    }
+
+    public void setInvaderImage(Image invaderImage) {
+        imageSelection.setInvaderImage(invaderImage);
     }
 
     /**
