@@ -4,6 +4,8 @@ import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
 import spaceinvaders.ui.SpaceInvadersUI;
 
+import spaceinvaders.mode.GameMode;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +58,25 @@ public class PaintingActions {
             int[] xPoints = { bullet.getX(), bullet.getX() - 5, bullet.getX() + 5 };
             int[] yPoints = { bullet.getY(), bullet.getY() + 10, bullet.getY() + 10 };
             g.fillPolygon(xPoints, yPoints, 3);
+        }
+    }
+
+    public void drawModeHUD(Graphics g, SpaceInvadersUI game) {
+        GameMode mode = game.modeManager.getCurrentMode();
+        int hearts;
+        synchronized (game) {
+            hearts = mode.getHearts();
+        }
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 14));
+        g.drawString(mode.getModeName(), game.getWidth() - 90, 20);
+
+        if (hearts >= 0) {
+            g.setColor(Color.RED);
+            for (int i = 0; i < hearts; i++) {
+                g.fillOval(10 + i * 25, 10, 20, 20);
+            }
         }
     }
 }
