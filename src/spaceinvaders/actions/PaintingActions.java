@@ -50,12 +50,8 @@ public class PaintingActions {
             bulletsCopy = new ArrayList<>(game.bullets);
         }
         
-        g.setColor(Color.YELLOW);
         for (Bullet bullet : bulletsCopy) {
-            // Make the bullet into a triangle. Remember where the origin is on the game
-            int[] xPoints = { bullet.getX(), bullet.getX() - 5, bullet.getX() + 5 };
-            int[] yPoints = { bullet.getY(), bullet.getY() + 10, bullet.getY() + 10 };
-            g.fillPolygon(xPoints, yPoints, 3);
+            game.bulletService.drawBullet(g, bullet, game);
         }
     }
 }

@@ -15,8 +15,10 @@ import javax.swing.JMenuItem;
 public class BulletTypeMenu {
 
     private final JMenu menu;
+    private final SpaceInvadersUI gameUI;
 
     public BulletTypeMenu(SpaceInvadersUI gameUI) {
+        this.gameUI = gameUI;
         this.menu = createMenu();
     }
 
@@ -31,6 +33,23 @@ public class BulletTypeMenu {
         JMenuItem tntItem = new JMenuItem("TNT");
         JMenuItem nukeItem = new JMenuItem("Nuke");
         JMenuItem customItem = new JMenuItem("Custom");
+
+        lazerItem.addActionListener(e -> {
+            gameUI.bulletService.setLazerType();
+            gameUI.repaint();
+        });
+        tntItem.addActionListener(e -> {
+            gameUI.bulletService.setTntType();
+            gameUI.repaint();
+        });
+        nukeItem.addActionListener(e -> {
+            gameUI.bulletService.setNukeType();
+            gameUI.repaint();
+        });
+        customItem.addActionListener(e -> {
+            gameUI.bulletService.promptAndSetCustomType();
+            gameUI.repaint();
+        });
 
         bulletTypeMenu.add(lazerItem);
         bulletTypeMenu.add(tntItem);
