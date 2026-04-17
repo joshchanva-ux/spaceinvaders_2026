@@ -4,6 +4,7 @@ import spaceinvaders.actions.ListenerActions;
 import spaceinvaders.actions.PaintingActions;
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
+import spaceinvaders.mode.ModeManager;
 import spaceinvaders.service.GameCalculator;
 import spaceinvaders.service.ImageSelection;
 
@@ -30,6 +31,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
     private int shooter_X_Coordinate = 200;
     private GameCalculator gameCalculator;
     private final AppMenuBar appMenuBar;
+    public ModeManager modeManager;
     public static int breakpointcounter = 0;
 
     // Constructor
@@ -44,7 +46,8 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
         paintingActions = new PaintingActions();
-        appMenuBar = new AppMenuBar();
+        modeManager = new ModeManager(this);
+        appMenuBar = new AppMenuBar(modeManager);
         // For debugging
 
         // Set images
@@ -52,11 +55,14 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
 
         setFocusable(true);
         addKeyListener(this);
-        
+
         // Start the game calculator thread for position/collision updates
         gameCalculator = new GameCalculator(this);
         gameCalculator.start();
-        
+
+        // Start the mode manager thread
+        modeManager.start();
+
         // Start the repaint timer (UI thread)
         repaintTimer.start();
     }
@@ -92,6 +98,9 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
 
         // Draw bullets (bullets)
         paintingActions.drawBullets(g, this);
+
+        // Draw mode HUD (hearts and mode label)
+        paintingActions.drawModeHUD(g, this);
     }
 
     public JMenuBar getAppMenuBar() {
@@ -118,12 +127,28 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
      * Gracefully shuts down the game calculator thread and stops the repaint timer.
      * Call this before closing the application.
      */
+    public void triggerGameOver() {
+        gameCalculator.stopThread();
+        repaintTimer.stop();
+        if (modeManager != null) {
+            modeManager.stopThread();
+        }
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(this, "Game Over! You ran out of hearts.", "Game Over",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        });
+    }
+
     public void shutdown() {
         if (gameCalculator != null && gameCalculator.isAlive()) {
             gameCalculator.stopThread();
         }
         if (repaintTimer != null) {
             repaintTimer.stop();
+        }
+        if (modeManager != null) {
+            modeManager.stopThread();
         }
     }
 
