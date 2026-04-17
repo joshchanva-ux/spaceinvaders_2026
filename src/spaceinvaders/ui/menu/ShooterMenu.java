@@ -44,6 +44,7 @@ public class ShooterMenu {
         if (source == null || source.trim().isEmpty()) {
             return;
         }
-        setShooterImage(source.trim());
+        source = source.trim().replace('\\', '/');
+        setShooterImage(source);
     }
 }

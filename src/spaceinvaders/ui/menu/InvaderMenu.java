@@ -44,6 +44,7 @@ public class InvaderMenu {
         if (source == null || source.trim().isEmpty()) {
             return;
         }
-        setInvaderImage(source.trim());
+        source = source.trim().replace('\\', '/');
+        setInvaderImage(source);
     }
 }
