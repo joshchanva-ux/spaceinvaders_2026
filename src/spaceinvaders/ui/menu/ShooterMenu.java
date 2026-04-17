@@ -15,9 +15,9 @@ public class ShooterMenu {
 
     public JMenu getMenu() {
         JMenu shooterMenu = new JMenu("Shooter Image");
-        shooterMenu.add(createMenuItem("Pre-defined Shooter 1", e -> setShooterImage("/spaceinvaders/resources/Images/ShooterImage.png")));
-        shooterMenu.add(createMenuItem("Pre-defined Shooter 2", e -> setShooterImage("/spaceinvaders/resources/Images/ShooterImage.png")));
-        shooterMenu.add(createMenuItem("Pre-defined Shooter 3", e -> setShooterImage("/spaceinvaders/resources/Images/ShooterImage.png")));
+        shooterMenu.add(createMenuItem("Biden Blast", e -> setShooterImage("/spaceinvaders/resources/Images/BidenBlast.png")));
+        shooterMenu.add(createMenuItem("Sniper", e -> setShooterImage("/spaceinvaders/resources/Images/Sniper.png")));
+        shooterMenu.add(createMenuItem("AVGN", e -> setShooterImage("/spaceinvaders/resources/Images/AVGN.png")));
         shooterMenu.addSeparator();
         shooterMenu.add(createMenuItem("Custom Shooter Image...", e -> promptForCustomImage()));
         return shooterMenu;
