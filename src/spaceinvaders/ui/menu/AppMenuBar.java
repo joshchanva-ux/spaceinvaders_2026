@@ -1,5 +1,6 @@
 package spaceinvaders.ui.menu;
 
+import spaceinvaders.ui.SpaceInvadersUI;
 import javax.swing.JMenuBar;
 
 /*
@@ -42,21 +43,17 @@ public class AppMenuBar {
 
     private final JMenuBar menuBar;
 
-    public AppMenuBar() {
-        menuBar = createMenuBar();
+    public AppMenuBar(SpaceInvadersUI gameUI) {
+        menuBar = createMenuBar(gameUI);
     }
 
     public JMenuBar getMenuBar() {
         return menuBar;
     }
 
-    private JMenuBar createMenuBar() {
+    private JMenuBar createMenuBar(SpaceInvadersUI gameUI) {
         JMenuBar bar = new JMenuBar();
-        // Add new menus here, e.g.:
-        // bar.add(new MusicMenu().getMenu());
-        // bar.add(new ShooterMenu().getMenu());
-        // bar.add(new InvaderMenu().getMenu());
-        // bar.add(new BulletMenu().getMenu());
+        bar.add(new BulletTypeMenu(gameUI).getMenu());
         return bar;
     }
 }
