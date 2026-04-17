@@ -39,9 +39,16 @@ public class ImageSelection {
             return loadDefaultImage(defaultResourcePath);
         }
 
-        Image image = loadFileOrUrlImage(source);
-        if (image != null) {
-            return image;
+        if (source.startsWith("/")) {
+            Image resourceImage = loadDefaultImage(source);
+            if (resourceImage != null) {
+                return resourceImage;
+            }
+        } else {
+            Image image = loadFileOrUrlImage(source);
+            if (image != null) {
+                return image;
+            }
         }
 
         GameExceptions.showErrorDialog("Failed to load image from '" + source + "'. Using default instead.");

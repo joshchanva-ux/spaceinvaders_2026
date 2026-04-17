@@ -15,9 +15,9 @@ public class InvaderMenu {
 
     public JMenu getMenu() {
         JMenu invaderMenu = new JMenu("Invader Image");
-        invaderMenu.add(createMenuItem("Pre-defined Invader 1", e -> setInvaderImage("/spaceinvaders/resources/Images/InvaderImage.png")));
-        invaderMenu.add(createMenuItem("Pre-defined Invader 2", e -> setInvaderImage("/spaceinvaders/resources/Images/InvaderImage.png")));
-        invaderMenu.add(createMenuItem("Pre-defined Invader 3", e -> setInvaderImage("/spaceinvaders/resources/Images/InvaderImage.png")));
+        invaderMenu.add(createMenuItem("True", e -> setInvaderImage("/spaceinvaders/resources/Images/AdachiTrue.png")));
+        invaderMenu.add(createMenuItem("Target", e -> setInvaderImage("/spaceinvaders/resources/Images/target.png")));
+        invaderMenu.add(createMenuItem("Gato", e -> setInvaderImage("/spaceinvaders/resources/Images/Gato.png")));
         invaderMenu.addSeparator();
         invaderMenu.add(createMenuItem("Custom Invader Image...", e -> promptForCustomImage()));
         return invaderMenu;
