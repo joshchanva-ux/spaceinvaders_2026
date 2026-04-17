@@ -3,12 +3,11 @@ package spaceinvaders.service;
 import spaceinvaders.exception.GameExceptions;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.imageio.ImageIO;
-import javax.swing.*;
 
 public class ImageSelection {
     private Image shooterImage;
@@ -23,45 +22,51 @@ public class ImageSelection {
     }
 
     public void setGameImages() {
-        shooterImage = loadImage("shooter", "/spaceinvaders/resources/Images/ShooterImage.png");
-        invaderImage = loadImage("invader", "/spaceinvaders/resources/Images/InvaderImage.png");
+        shooterImage = loadDefaultImage("/spaceinvaders/resources/Images/ShooterImage.png");
+        invaderImage = loadDefaultImage("/spaceinvaders/resources/Images/InvaderImage.png");
     }
 
-    private static Image loadImage(String imageType, String defaultResourcePath) {
-        String imageUrl = JOptionPane.showInputDialog(null,
-                "Enter URL for " + imageType + " image (or leave blank for default):");
+    public void setShooterImage(Image shooterImage) {
+        this.shooterImage = shooterImage;
+    }
 
-        // Need to handle case where url is not an image, ie a png or jpeg.
-        if (imageUrl != null && !imageUrl.isEmpty()) {
-            try {
-                URI uri = new URI(imageUrl);
-                return ImageIO.read(uri.toURL());
-            } catch (IllegalArgumentException e) {
-                GameExceptions.showErrorDialog(
-                        "Illegal Argument " + imageUrl + " : " + e.getMessage()
-                                + "\nLoading default image instead");
-            } catch (URISyntaxException e) {
-                GameExceptions.showErrorDialog(
-                        "URL Syntax error for " + imageUrl + " : " + e.getMessage()
-                                + "\nLoading default image instead");
-            } catch (MalformedURLException e) {
-                GameExceptions.showErrorDialog(
-                        "Malformed URL for " + imageUrl + " : " + e.getMessage()
-                                + "\nLoading default image instead");
-            } catch (IOException e) {
-                GameExceptions.showErrorDialog(
-                        "Failed to load " + imageUrl + " : " + e.getMessage()
-                                + "\nLoading default image instead");
-            }
+    public void setInvaderImage(Image invaderImage) {
+        this.invaderImage = invaderImage;
+    }
+
+    public Image loadImageFromSource(String source, String defaultResourcePath) {
+        if (source == null || source.trim().isEmpty()) {
+            return loadDefaultImage(defaultResourcePath);
         }
 
-        // If no URL is provided or URL fails, load the default resource
+        Image image = loadFileOrUrlImage(source);
+        if (image != null) {
+            return image;
+        }
+
+        GameExceptions.showErrorDialog("Failed to load image from '" + source + "'. Using default instead.");
+        return loadDefaultImage(defaultResourcePath);
+    }
+
+    private static Image loadFileOrUrlImage(String source) {
         try {
-            return ImageIO.read(ImageSelection.class.getResource(defaultResourcePath));
-        } catch (IOException e) {
-            GameExceptions.showErrorDialog("Failed to load default " + imageType + " image: " + e.getMessage());
+            File file = new File(source);
+            if (file.exists()) {
+                return ImageIO.read(file);
+            }
+            URI uri = new URI(source);
+            return ImageIO.read(uri.toURL());
+        } catch (URISyntaxException | IOException e) {
+            return null;
         }
+    }
 
-        return null;
+    private static Image loadDefaultImage(String resourcePath) {
+        try {
+            return ImageIO.read(ImageSelection.class.getResource(resourcePath));
+        } catch (IOException e) {
+            GameExceptions.showErrorDialog("Failed to load default image: " + e.getMessage());
+            return null;
+        }
     }
 }
