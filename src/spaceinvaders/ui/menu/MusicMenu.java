@@ -14,12 +14,13 @@ import javax.swing.JOptionPane;
 public class MusicMenu {
 
     private static final String RESOURCE_BASE = "/spaceinvaders/resources/music/";
+    private static final MusicService MUSIC_SERVICE = MusicService.getDefaultService();
 
     private final JMenu menu;
     private final MusicService musicService;
 
     public MusicMenu() {
-        this.musicService = new MusicService();
+        this.musicService = MUSIC_SERVICE;
         menu = createMenu();
     }
 

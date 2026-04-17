@@ -26,6 +26,7 @@ import java.util.concurrent.Executors;
 public class MusicService {
 
     private static final String DEFAULT_TRACK = "/spaceinvaders/resources/music/dream-protocol.wav";
+    private static final MusicService DEFAULT_SERVICE = new MusicService();
 
     private final ExecutorService audioThread;
     private Clip currentClip;
@@ -36,6 +37,16 @@ public class MusicService {
             t.setDaemon(true);
             return t;
         });
+    }
+
+    /** Returns the shared app-level music service instance. */
+    public static MusicService getDefaultService() {
+        return DEFAULT_SERVICE;
+    }
+
+    /** Starts default background music via the shared service instance. */
+    public static void startDefaultMusic() {
+        DEFAULT_SERVICE.playDefaultTrack();
     }
 
     /** Starts the default background track. */

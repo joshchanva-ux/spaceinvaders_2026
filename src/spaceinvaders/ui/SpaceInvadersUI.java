@@ -6,6 +6,7 @@ import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
 import spaceinvaders.service.GameCalculator;
 import spaceinvaders.service.ImageSelection;
+import spaceinvaders.service.MusicService;
 import spaceinvaders.ui.menu.AppMenuBar;
 
 import java.awt.*;
@@ -43,7 +44,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
         paintingActions = new PaintingActions();
-        appMenuBar = new AppMenuBar();
+        appMenuBar = new AppMenuBar(this);
         // For debugging
 
         // Set images
@@ -57,7 +58,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         gameCalculator.start();
 
         // Start background music alongside the UI
-        appMenuBar.startDefaultMusic();
+        MusicService.startDefaultMusic();
         
         // Start the repaint timer (UI thread)
         repaintTimer.start();

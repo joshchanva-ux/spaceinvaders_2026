@@ -1,5 +1,7 @@
 package spaceinvaders.ui.menu;
 
+import spaceinvaders.ui.SpaceInvadersUI;
+
 import javax.swing.JMenuBar;
 
 /*
@@ -18,7 +20,7 @@ import javax.swing.JMenuBar;
  *      e.g. ShooterMenu.java.
  *   2. Use the same pattern as MusicMenu.
  *   3. Register it in createMenuBar() below:
- *        bar.add(new ShooterMenu().getMenu());
+ *        bar.add(new ShooterMenu(gameUI).getMenu());
  *
  * --- Planned menus (not yet implemented) ---
  *   - ShooterMenu.java — shooter speed, color, controls
@@ -41,27 +43,21 @@ import javax.swing.JMenuBar;
 public class AppMenuBar {
 
     private final JMenuBar menuBar;
-    private final MusicMenu musicMenu;
 
-    public AppMenuBar() {
-        musicMenu = new MusicMenu();
-        menuBar = createMenuBar();
+    public AppMenuBar(SpaceInvadersUI gameUI) {
+        menuBar = createMenuBar(gameUI);
     }
 
     public JMenuBar getMenuBar() {
         return menuBar;
     }
 
-    public void startDefaultMusic() {
-        musicMenu.startDefaultMusic();
-    }
-
-    private JMenuBar createMenuBar() {
+    private JMenuBar createMenuBar(SpaceInvadersUI gameUI) {
         JMenuBar bar = new JMenuBar();
-        bar.add(musicMenu.getMenu());
-        // bar.add(new ShooterMenu().getMenu());
-        // bar.add(new InvaderMenu().getMenu());
-        // bar.add(new BulletMenu().getMenu());
+        bar.add(new MusicMenu().getMenu());
+        // bar.add(new ShooterMenu(gameUI).getMenu());
+        // bar.add(new InvaderMenu(gameUI).getMenu());
+        // bar.add(new BulletMenu(gameUI).getMenu());
         return bar;
     }
 }
