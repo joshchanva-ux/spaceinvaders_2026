@@ -14,27 +14,31 @@ public class ListenerActions {
 
     public void keyPressed(KeyEvent e, SpaceInvadersUI game) {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_LEFT) {
-            game.moveLeft = true;
-        }
-        if (key == KeyEvent.VK_RIGHT) {
-            game.moveRight = true;
-        }
-        if (key == KeyEvent.VK_SPACE) {
-            game.spacePressed = true;
+        synchronized (game) {
+            if (key == KeyEvent.VK_LEFT) {
+                game.moveLeft = true;
+            }
+            if (key == KeyEvent.VK_RIGHT) {
+                game.moveRight = true;
+            }
+            if (key == KeyEvent.VK_SPACE) {
+                game.spacePressed = true;
+            }
         }
     }
 
     public void keyReleased(KeyEvent e, SpaceInvadersUI game) {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_LEFT) {
-            game.moveLeft = false;
-        }
-        if (key == KeyEvent.VK_RIGHT) {
-            game.moveRight = false;
-        }
-        if (key == KeyEvent.VK_SPACE) {
-            game.spacePressed = false;
+        synchronized (game) {
+            if (key == KeyEvent.VK_LEFT) {
+                game.moveLeft = false;
+            }
+            if (key == KeyEvent.VK_RIGHT) {
+                game.moveRight = false;
+            }
+            if (key == KeyEvent.VK_SPACE) {
+                game.spacePressed = false;
+            }
         }
     }
 }
