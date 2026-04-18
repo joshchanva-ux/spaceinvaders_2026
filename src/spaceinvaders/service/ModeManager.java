@@ -1,5 +1,8 @@
-package spaceinvaders.mode;
+package spaceinvaders.service;
 
+import spaceinvaders.service.mode.CreativeMode;
+import spaceinvaders.service.mode.GameMode;
+import spaceinvaders.service.mode.SurvivalMode;
 import spaceinvaders.ui.SpaceInvadersUI;
 
 public class ModeManager extends Thread {

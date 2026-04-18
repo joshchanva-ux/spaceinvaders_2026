@@ -5,9 +5,9 @@ import spaceinvaders.actions.PaintingActions;
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
 import spaceinvaders.service.BulletService;
-import spaceinvaders.mode.ModeManager;
 import spaceinvaders.service.GameCalculator;
 import spaceinvaders.service.ImageSelection;
+import spaceinvaders.service.ModeManager;
 import spaceinvaders.service.MusicService;
 import spaceinvaders.ui.menu.AppMenuBar;
 

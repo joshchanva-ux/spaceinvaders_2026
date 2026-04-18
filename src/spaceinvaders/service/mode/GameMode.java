@@ -1,4 +1,4 @@
-package spaceinvaders.mode;
+package spaceinvaders.service.mode;
 
 import spaceinvaders.ui.SpaceInvadersUI;
 

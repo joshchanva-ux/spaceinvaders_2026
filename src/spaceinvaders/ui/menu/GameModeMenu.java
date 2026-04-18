@@ -1,8 +1,8 @@
 package spaceinvaders.ui.menu;
 
-import spaceinvaders.mode.ModeManager;
-
 import javax.swing.*;
+
+import spaceinvaders.service.ModeManager;
 
 public final class GameModeMenu {
 

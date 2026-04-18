@@ -2,9 +2,8 @@ package spaceinvaders.actions;
 
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
+import spaceinvaders.service.mode.GameMode;
 import spaceinvaders.ui.SpaceInvadersUI;
-
-import spaceinvaders.mode.GameMode;
 
 import java.awt.*;
 import java.util.ArrayList;
