@@ -1,11 +1,10 @@
 package spaceinvaders.service;
 
+import java.awt.*;
+import java.util.Iterator;
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
 import spaceinvaders.ui.SpaceInvadersUI;
-
-import java.awt.*;
-import java.util.Iterator;
 
 /**
  * GameCalculator runs on a separate thread and handles:
@@ -19,6 +18,8 @@ public class GameCalculator extends Thread {
     private final SpaceInvadersUI game;
     private volatile boolean running = true;
     private static final long UPDATE_INTERVAL_MS = 20; // Same as original timer interval
+    private static final long SHOOT_COOLDOWN_MS = 50;
+    private long lastShotTimeMs = 0;
 
     public GameCalculator(SpaceInvadersUI game) {
         this.game = game;
@@ -51,6 +52,7 @@ public class GameCalculator extends Thread {
 
     private void updateGameState() {
         updateShooterPosition();
+        updateShooting();
         updateInvaderPositions();
         updateBulletPositions();
         checkCollisions();
@@ -69,6 +71,25 @@ public class GameCalculator extends Thread {
             if (game.moveRight && shooter_X_Coordinate < game.getWidth() - shooter_Width) {
                 game.setShooter_X_Coordinate(shooter_X_Coordinate + 5);
             }
+        }
+    }
+
+    private void updateShooting() {
+        synchronized (game) {
+            if (!game.spacePressed) {
+                return;
+            }
+
+            long now = System.currentTimeMillis();
+            if (now - lastShotTimeMs < SHOOT_COOLDOWN_MS) {
+                return;
+            }
+            lastShotTimeMs = now;
+
+            int shooter_X_Coordinate = game.getShooter_X_Coordinate();
+            int shooter_width = game.getShooterWidth();
+            int shooter_height = game.getShooterHeight();
+            game.bullets.add(new Bullet(shooter_X_Coordinate + shooter_width / 2, game.getHeight() - shooter_height));
         }
     }
 

@@ -1,5 +1,10 @@
 package spaceinvaders.ui;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Random;
+import javax.swing.*;
 import spaceinvaders.actions.ListenerActions;
 import spaceinvaders.actions.PaintingActions;
 import spaceinvaders.characters.Bullet;
@@ -11,12 +16,6 @@ import spaceinvaders.service.ModeManager;
 import spaceinvaders.service.MusicService;
 import spaceinvaders.ui.menu.AppMenuBar;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Random;
-import javax.swing.*;
-
 public class SpaceInvadersUI extends JPanel implements KeyListener {
 
     private final Timer repaintTimer;
@@ -24,6 +23,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
     public ArrayList<Bullet> bullets;
     public Random random;
     public boolean moveLeft, moveRight;
+    public boolean spacePressed;
     private final ListenerActions listenerActions;
     public final ImageSelection imageSelection;
     public final BulletService bulletService;
@@ -51,6 +51,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         gameCalculator.start();
         moveLeft = false;
         moveRight = false;
+        spacePressed = false;
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
         bulletService = new BulletService();
