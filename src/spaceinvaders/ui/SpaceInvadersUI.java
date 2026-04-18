@@ -1,7 +1,11 @@
-package spaceinvaders;
+package spaceinvaders.ui;
 
+import spaceinvaders.actions.ListenerActions;
+import spaceinvaders.actions.PaintingActions;
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
+import spaceinvaders.service.GameCalculator;
+import spaceinvaders.service.ImageSelection;
 
 import java.awt.*;
 import java.awt.event.*;

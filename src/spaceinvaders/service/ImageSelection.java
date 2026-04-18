@@ -1,4 +1,6 @@
-package spaceinvaders;
+package spaceinvaders.service;
+
+import spaceinvaders.exception.GameExceptions;
 
 import java.awt.*;
 import java.io.IOException;
@@ -21,8 +23,8 @@ public class ImageSelection {
     }
 
     public void setGameImages() {
-        shooterImage = loadImage("shooter", "./resources/ShooterImage.png");
-        invaderImage = loadImage("invader", "./resources/InvaderImage.png");
+        shooterImage = loadImage("shooter", "/spaceinvaders/resources/Images/ShooterImage.png");
+        invaderImage = loadImage("invader", "/spaceinvaders/resources/Images/InvaderImage.png");
     }
 
     private static Image loadImage(String imageType, String defaultResourcePath) {

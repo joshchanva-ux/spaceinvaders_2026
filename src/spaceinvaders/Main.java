@@ -1,5 +1,7 @@
 package spaceinvaders;
 
+import spaceinvaders.ui.SpaceInvadersUI;
+
 import javax.swing.JFrame;
 import javax.swing.*;
 
