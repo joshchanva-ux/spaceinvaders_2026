@@ -7,7 +7,7 @@ import spaceinvaders.characters.Invader;
 import spaceinvaders.service.BulletService;
 import spaceinvaders.service.GameCalculator;
 import spaceinvaders.service.ImageSelection;
-
+import spaceinvaders.service.MusicService;
 import spaceinvaders.ui.menu.AppMenuBar;
 
 import java.awt.*;
@@ -65,6 +65,9 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         // Start the game calculator thread for position/collision updates
         gameCalculator = new GameCalculator(this);
         gameCalculator.start();
+
+        // Start background music alongside the UI
+        MusicService.startDefaultMusic();
         
         // Start the repaint timer (UI thread)
         repaintTimer.start();
@@ -124,7 +127,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
     }
 
     /**
-     * Gracefully shuts down the game calculator thread and stops the repaint timer.
+     * Gracefully shuts down all background threads and stops the repaint timer.
      * Call this before closing the application.
      */
     public void shutdown() {

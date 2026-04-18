@@ -21,7 +21,12 @@ import javax.swing.JMenuBar;
  *      e.g. NewMenu.java.
  *   2. Use the same pattern as ShooterMenu or InvaderMenu.
  *   3. Register it in createMenuBar() below:
- *        bar.add(new NewMenu(gameUI).getMenu());
+ *        bar.add(new ShooterMenu(gameUI).getMenu());
+ *
+ * --- Planned menus (not yet implemented) ---
+ *   - ShooterMenu.java — shooter speed, color, controls
+ *   - InvaderMenu.java — invader count, speed, wave settings
+ *   - BulletMenu.java  — bullet speed, size, fire rate
  *
  * --- File layout ---
  *   src/spaceinvaders/ui/menu/
@@ -52,6 +57,7 @@ public class AppMenuBar {
         bar.add(new ShooterMenu(gameUI).getMenu());
         bar.add(new InvaderMenu(gameUI).getMenu());
         bar.add(new BulletTypeMenu(gameUI).getMenu());
+        bar.add(new MusicMenu().getMenu());
         return bar;
     }
 }
