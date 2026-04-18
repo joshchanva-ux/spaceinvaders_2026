@@ -4,10 +4,11 @@ import spaceinvaders.actions.ListenerActions;
 import spaceinvaders.actions.PaintingActions;
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
+import spaceinvaders.service.BulletService;
 import spaceinvaders.mode.ModeManager;
 import spaceinvaders.service.GameCalculator;
 import spaceinvaders.service.ImageSelection;
-
+import spaceinvaders.service.MusicService;
 import spaceinvaders.ui.menu.AppMenuBar;
 
 import java.awt.*;
@@ -25,6 +26,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
     public boolean moveLeft, moveRight;
     private final ListenerActions listenerActions;
     public final ImageSelection imageSelection;
+    public final BulletService bulletService;
     private final PaintingActions paintingActions;
     private int shooter_width = 50;
     private int shooter_height = 60;
@@ -36,18 +38,25 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
 
     // Constructor
     public SpaceInvadersUI() {
+
+        // Start the game calculator thread for position/collision updates
+        gameCalculator = new GameCalculator(this);
+        gameCalculator.start();
         // Timer is used only for repainting (UI thread)
         repaintTimer = new Timer(20, e -> repaint()); // 20ms delay for smoother animations
         invaders = new ArrayList<>(); // Need to describe what ArrayList<> is.
         bullets = new ArrayList<>();
         random = new Random();
+        gameCalculator = new GameCalculator(this);
+        gameCalculator.start();
         moveLeft = false;
         moveRight = false;
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
+        bulletService = new BulletService();
         paintingActions = new PaintingActions();
         modeManager = new ModeManager(this);
-        appMenuBar = new AppMenuBar(modeManager);
+        appMenuBar = new AppMenuBar(this);
         // For debugging
 
         // Set images
@@ -59,6 +68,10 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         // Start the game calculator thread for position/collision updates
         gameCalculator = new GameCalculator(this);
         gameCalculator.start();
+
+        // Start background music alongside the UI
+        MusicService.startDefaultMusic();
+        
 
         // Start the mode manager thread
         modeManager.start();
@@ -124,7 +137,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
     }
 
     /**
-     * Gracefully shuts down the game calculator thread and stops the repaint timer.
+     * Gracefully shuts down all background threads and stops the repaint timer.
      * Call this before closing the application.
      */
     public void triggerGameOver() {
