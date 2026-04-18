@@ -58,6 +58,7 @@ public class AppMenuBar {
         bar.add(new InvaderMenu(gameUI).getMenu());
         bar.add(new BulletTypeMenu(gameUI).getMenu());
         bar.add(new MusicMenu().getMenu());
+        bar.add(new GameModeMenu(gameUI.modeManager).getMenu());
         return bar;
     }
 }
