@@ -1,6 +1,6 @@
 package spaceinvaders.service;
 
-import spaceinvaders.exception.GameExceptions;
+import spaceinvaders.exception.MusicExceptions;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -65,14 +65,14 @@ public class MusicService {
             try {
                 InputStream raw = getClass().getResourceAsStream(classpathResource);
                 if (raw == null) {
-                    showError("Music resource not found: " + classpathResource);
+                    reportMusicError("Music resource not found: " + classpathResource);
                     return;
                 }
                 AudioInputStream stream = AudioSystem.getAudioInputStream(
                         new BufferedInputStream(raw));
                 openAndLoop(stream);
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                showError("Failed to play resource: " + e.getMessage());
+                reportMusicError("Failed to play resource: " + e.getMessage());
             }
         });
     }
@@ -88,13 +88,13 @@ public class MusicService {
             try {
                 File file = new File(filePath);
                 if (!file.exists()) {
-                    showError("File not found: " + filePath);
+                    reportMusicError("File not found: " + filePath);
                     return;
                 }
                 AudioInputStream stream = AudioSystem.getAudioInputStream(file);
                 openAndLoop(stream);
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                showError("Failed to play file: " + e.getMessage());
+                reportMusicError("Failed to play file: " + e.getMessage());
             }
         });
     }
@@ -125,7 +125,7 @@ public class MusicService {
         }
     }
 
-    private void showError(String message) {
-        SwingUtilities.invokeLater(() -> GameExceptions.showErrorDialog(message));
+    private void reportMusicError(String message) {
+        SwingUtilities.invokeLater(() -> MusicExceptions.showErrorDialog(message));
     }
 }
