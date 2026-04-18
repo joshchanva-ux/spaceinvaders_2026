@@ -51,6 +51,7 @@ public class AppMenuBar {
         JMenuBar bar = new JMenuBar();
         bar.add(new ShooterMenu(gameUI).getMenu());
         bar.add(new InvaderMenu(gameUI).getMenu());
+        bar.add(new BulletTypeMenu(gameUI).getMenu());
         return bar;
     }
 }

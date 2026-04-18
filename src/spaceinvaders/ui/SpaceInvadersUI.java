@@ -4,6 +4,7 @@ import spaceinvaders.actions.ListenerActions;
 import spaceinvaders.actions.PaintingActions;
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
+import spaceinvaders.service.BulletService;
 import spaceinvaders.service.GameCalculator;
 import spaceinvaders.service.ImageSelection;
 
@@ -24,6 +25,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
     public boolean moveLeft, moveRight;
     private final ListenerActions listenerActions;
     public final ImageSelection imageSelection;
+    public final BulletService bulletService;
     private final PaintingActions paintingActions;
     private int shooter_width = 50;
     private int shooter_height = 60;
@@ -49,6 +51,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         moveRight = false;
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
+        bulletService = new BulletService();
         paintingActions = new PaintingActions();
         appMenuBar = new AppMenuBar(this);
         // For debugging
