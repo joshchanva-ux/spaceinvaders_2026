@@ -1,6 +1,7 @@
 package spaceinvaders.ui.menu;
 
 import spaceinvaders.ui.SpaceInvadersUI;
+
 import javax.swing.JMenuBar;
 
 /*
@@ -12,27 +13,22 @@ import javax.swing.JMenuBar;
  * single JMenuBar — it does not define menu items itself.
  *
  * --- Current menus ---
- *   - MusicMenu — track selection and music controls
+ *   - ShooterMenu — shooter image selection
+ *   - InvaderMenu — invader image selection
  *
  * --- How to add a new top-level menu ---
  *   1. Create a new file in src/spaceinvaders/ui/menu/,
- *      e.g. ShooterMenu.java.
- *   2. Use the same pattern as MusicMenu.
+ *      e.g. NewMenu.java.
+ *   2. Use the same pattern as ShooterMenu or InvaderMenu.
  *   3. Register it in createMenuBar() below:
- *        bar.add(new ShooterMenu().getMenu());
- *
- * --- Planned menus (not yet implemented) ---
- *   - ShooterMenu.java — shooter speed, color, controls
- *   - InvaderMenu.java — invader count, speed, wave settings
- *   - BulletMenu.java  — bullet speed, size, fire rate
+ *        bar.add(new NewMenu(gameUI).getMenu());
  *
  * --- File layout ---
  *   src/spaceinvaders/ui/menu/
  *   ├── AppMenuBar.java      (this file — composes menus into JMenuBar)
- *   ├── MusicMenu.java       (implemented)
- *   ├── ShooterMenu.java     (to be created)
- *   ├── InvaderMenu.java     (to be created)
- *   └── BulletMenu.java      (to be created)
+ *   ├── ShooterMenu.java     (implements shooter image selection)
+ *   ├── InvaderMenu.java     (implements invader image selection)
+ *   └── ...
  *
  * --- Wiring ---
  *   SpaceInvadersUI creates an AppMenuBar and exposes getAppMenuBar().
@@ -53,6 +49,8 @@ public class AppMenuBar {
 
     private JMenuBar createMenuBar(SpaceInvadersUI gameUI) {
         JMenuBar bar = new JMenuBar();
+        bar.add(new ShooterMenu(gameUI).getMenu());
+        bar.add(new InvaderMenu(gameUI).getMenu());
         bar.add(new BulletTypeMenu(gameUI).getMenu());
         return bar;
     }
