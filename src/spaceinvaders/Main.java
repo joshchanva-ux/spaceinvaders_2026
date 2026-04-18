@@ -11,6 +11,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Space Invaders with Images");
             SpaceInvadersUI game = new SpaceInvadersUI();
+            frame.setJMenuBar(game.getAppMenuBar());
             frame.add(game);
             frame.setSize(600, 700);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
