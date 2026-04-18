@@ -32,7 +32,7 @@ public class InvaderMenu {
     private void setInvaderImage(String source) {
         Image image = gameUI.imageSelection.loadImageFromSource(source, "/spaceinvaders/resources/Images/InvaderImage.png");
         if (image != null) {
-            gameUI.setInvaderImage(image);
+            gameUI.imageSelection.setInvaderImage(image);
             gameUI.repaint();
         }
     }

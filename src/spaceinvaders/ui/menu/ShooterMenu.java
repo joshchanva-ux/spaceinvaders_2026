@@ -32,7 +32,7 @@ public class ShooterMenu {
     private void setShooterImage(String source) {
         Image image = gameUI.imageSelection.loadImageFromSource(source, "/spaceinvaders/resources/Images/ShooterImage.png");
         if (image != null) {
-            gameUI.setShooterImage(image);
+            gameUI.imageSelection.setShooterImage(image);
             gameUI.repaint();
         }
     }

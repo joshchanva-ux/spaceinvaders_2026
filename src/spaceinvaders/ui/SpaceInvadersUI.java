@@ -114,14 +114,6 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         shooter_X_Coordinate = shooter_X;
     }
 
-    public void setShooterImage(Image shooterImage) {
-        imageSelection.setShooterImage(shooterImage);
-    }
-
-    public void setInvaderImage(Image invaderImage) {
-        imageSelection.setInvaderImage(invaderImage);
-    }
-
     /**
      * Gracefully shuts down the game calculator thread and stops the repaint timer.
      * Call this before closing the application.
