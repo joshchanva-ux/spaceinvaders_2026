@@ -1,5 +1,10 @@
 package spaceinvaders.ui;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Random;
+import javax.swing.*;
 import spaceinvaders.actions.ListenerActions;
 import spaceinvaders.actions.PaintingActions;
 import spaceinvaders.characters.Bullet;
@@ -11,19 +16,14 @@ import spaceinvaders.service.ModeManager;
 import spaceinvaders.service.MusicService;
 import spaceinvaders.ui.menu.AppMenuBar;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Random;
-import javax.swing.*;
-
 public class SpaceInvadersUI extends JPanel implements KeyListener {
 
     private final Timer repaintTimer;
-    public ArrayList<Invader> invaders;
-    public ArrayList<Bullet> bullets;
-    public Random random;
+    public final ArrayList<Invader> invaders;
+    public final ArrayList<Bullet> bullets;
+    public final Random random;
     public boolean moveLeft, moveRight;
+    public boolean spacePressed;
     private final ListenerActions listenerActions;
     public final ImageSelection imageSelection;
     public final BulletService bulletService;
@@ -38,19 +38,12 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
 
     // Constructor
     public SpaceInvadersUI() {
-
-        // Start the game calculator thread for position/collision updates
-        gameCalculator = new GameCalculator(this);
-        gameCalculator.start();
-        // Timer is used only for repainting (UI thread)
-        repaintTimer = new Timer(20, e -> repaint()); // 20ms delay for smoother animations
-        invaders = new ArrayList<>(); // Need to describe what ArrayList<> is.
+        invaders = new ArrayList<>();
         bullets = new ArrayList<>();
         random = new Random();
-        gameCalculator = new GameCalculator(this);
-        gameCalculator.start();
         moveLeft = false;
         moveRight = false;
+        spacePressed = false;
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
         bulletService = new BulletService();
@@ -75,6 +68,9 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
 
         // Start the mode manager thread
         modeManager.start();
+
+        // Timer is used only for repainting (UI thread)
+        repaintTimer = new Timer(20, e -> repaint()); // 20ms delay for smoother animations
 
         // Start the repaint timer (UI thread)
         repaintTimer.start();

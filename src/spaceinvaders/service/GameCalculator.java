@@ -1,11 +1,10 @@
 package spaceinvaders.service;
 
+import java.awt.*;
+import java.util.Iterator;
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
 import spaceinvaders.ui.SpaceInvadersUI;
-
-import java.awt.*;
-import java.util.Iterator;
 
 /**
  * GameCalculator runs on a separate thread and handles:
@@ -19,6 +18,8 @@ public class GameCalculator extends Thread {
     private final SpaceInvadersUI game;
     private volatile boolean running = true;
     private static final long UPDATE_INTERVAL_MS = 20; // Same as original timer interval
+    private static final long SHOOT_COOLDOWN_MS = 50;
+    private long lastShotTimeMs = 0;
 
     public GameCalculator(SpaceInvadersUI game) {
         this.game = game;
@@ -50,86 +51,96 @@ public class GameCalculator extends Thread {
     }
 
     private void updateGameState() {
-        updateShooterPosition();
-        updateInvaderPositions();
-        updateBulletPositions();
-        checkCollisions();
-        spawnNewInvaders();
-    }
-
-    private void updateShooterPosition() {
         synchronized (game) {
-            int shooter_X_Coordinate = game.getShooter_X_Coordinate();
-            int shooter_Width = game.getShooterWidth();
-            
-            // Move shooter left or right
-            if (game.moveLeft && shooter_X_Coordinate > 0) {
-                game.setShooter_X_Coordinate(shooter_X_Coordinate - 5);
-            }
-            if (game.moveRight && shooter_X_Coordinate < game.getWidth() - shooter_Width) {
-                game.setShooter_X_Coordinate(shooter_X_Coordinate + 5);
-            }
+            updateShooterPosition();
+            updateShooting();
+            updateInvaderPositions();
+            updateBulletPositions();
+            checkCollisions();
+            spawnNewInvaders();
         }
     }
 
+    private void updateShooterPosition() {
+        int shooter_X_Coordinate = game.getShooter_X_Coordinate();
+        int shooter_Width = game.getShooterWidth();
+
+        // Move shooter left or right
+        if (game.moveLeft && shooter_X_Coordinate > 0) {
+            game.setShooter_X_Coordinate(shooter_X_Coordinate - 5);
+        }
+        if (game.moveRight && shooter_X_Coordinate < game.getWidth() - shooter_Width) {
+            game.setShooter_X_Coordinate(shooter_X_Coordinate + 5);
+        }
+    }
+
+    private void updateShooting() {
+        if (!game.spacePressed) {
+            return;
+        }
+
+        long now = System.currentTimeMillis();
+        if (now - lastShotTimeMs < SHOOT_COOLDOWN_MS) {
+            return;
+        }
+        lastShotTimeMs = now;
+
+        int shooter_X_Coordinate = game.getShooter_X_Coordinate();
+        int shooter_width = game.getShooterWidth();
+        int shooter_height = game.getShooterHeight();
+        game.bullets.add(new Bullet(shooter_X_Coordinate + shooter_width / 2, game.getHeight() - shooter_height));
+    }
+
     private void spawnNewInvaders() {
-        synchronized (game) {
-            if (game.getWidth() > 0 && game.random.nextInt(100) < 2) {
-                int x = game.random.nextInt(game.getWidth());
-                game.invaders.add(new Invader(x, 0, 40));
-            }
+        if (game.getWidth() > 0 && game.random.nextInt(100) < 2) {
+            int x = game.random.nextInt(game.getWidth());
+            game.invaders.add(new Invader(x, 0, 40));
         }
     }
 
     private void updateInvaderPositions() {
-        synchronized (game) {
-            Iterator<Invader> invaderIterator = game.invaders.iterator();
-            while (invaderIterator.hasNext()) {
-                Invader invader = invaderIterator.next();
-                int y = invader.getY();
-                invader.setY(y + 2);
-                if (invader.getY() + invader.getSize() >= game.getHeight() - game.getShooterHeight()) {
-                    int shooterX = game.getShooter_X_Coordinate();
-                    boolean hitsShooter = invader.getX() + invader.getSize() > shooterX
-                            && invader.getX() < shooterX + game.getShooterWidth();
-                    if (hitsShooter) {
-                        game.modeManager.getCurrentMode().onInvaderReachesShooter(game);
-                    }
-                    invaderIterator.remove();
+        Iterator<Invader> invaderIterator = game.invaders.iterator();
+        while (invaderIterator.hasNext()) {
+            Invader invader = invaderIterator.next();
+            int y = invader.getY();
+            invader.setY(y + 2);
+            if (invader.getY() + invader.getSize() >= game.getHeight() - game.getShooterHeight()) {
+                int shooterX = game.getShooter_X_Coordinate();
+                boolean hitsShooter = invader.getX() + invader.getSize() > shooterX
+                        && invader.getX() < shooterX + game.getShooterWidth();
+                if (hitsShooter) {
+                    game.modeManager.getCurrentMode().onInvaderReachesShooter(game);
                 }
+                invaderIterator.remove();
             }
         }
     }
 
     private void updateBulletPositions() {
-        synchronized (game) {
-            Iterator<Bullet> bulletIterator = game.bullets.iterator();
-            while (bulletIterator.hasNext()) {
-                Bullet bullet = bulletIterator.next();
-                int y = bullet.getY();
-                bullet.setY(y - 5);
-                if (bullet.getY() < 0) {
-                    bulletIterator.remove();
-                }
+        Iterator<Bullet> bulletIterator = game.bullets.iterator();
+        while (bulletIterator.hasNext()) {
+            Bullet bullet = bulletIterator.next();
+            int y = bullet.getY();
+            bullet.setY(y - 5);
+            if (bullet.getY() < 0) {
+                bulletIterator.remove();
             }
         }
     }
 
     private void checkCollisions() {
-        synchronized (game) {
-            Iterator<Bullet> bulletIterator = game.bullets.iterator();
-            while (bulletIterator.hasNext()) {
-                Bullet bullet = bulletIterator.next();
-                Iterator<Invader> invaderIterator = game.invaders.iterator();
-                while (invaderIterator.hasNext()) {
-                    Invader invader = invaderIterator.next();
-                    if (new Rectangle(bullet.getX() - 5, bullet.getY(), 10, 10).intersects(
-                            new Rectangle(invader.getX(), invader.getY(), invader.getSize(),
-                                    invader.getSize()))) {
-                        bulletIterator.remove();
-                        invaderIterator.remove();
-                        break;
-                    }
+        Iterator<Bullet> bulletIterator = game.bullets.iterator();
+        while (bulletIterator.hasNext()) {
+            Bullet bullet = bulletIterator.next();
+            Iterator<Invader> invaderIterator = game.invaders.iterator();
+            while (invaderIterator.hasNext()) {
+                Invader invader = invaderIterator.next();
+                if (new Rectangle(bullet.getX() - 5, bullet.getY(), 10, 10).intersects(
+                        new Rectangle(invader.getX(), invader.getY(), invader.getSize(),
+                                invader.getSize()))) {
+                    bulletIterator.remove();
+                    invaderIterator.remove();
+                    break;
                 }
             }
         }
