@@ -50,7 +50,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
         paintingActions = new PaintingActions();
-        appMenuBar = new AppMenuBar();
+        appMenuBar = new AppMenuBar(this);
         // For debugging
 
         // Set images
