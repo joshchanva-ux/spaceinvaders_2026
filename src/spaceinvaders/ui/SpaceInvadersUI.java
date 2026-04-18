@@ -4,6 +4,7 @@ import spaceinvaders.actions.ListenerActions;
 import spaceinvaders.actions.PaintingActions;
 import spaceinvaders.characters.Bullet;
 import spaceinvaders.characters.Invader;
+import spaceinvaders.service.BulletService;
 import spaceinvaders.service.GameCalculator;
 import spaceinvaders.service.ImageSelection;
 import spaceinvaders.service.MusicService;
@@ -24,6 +25,7 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
     public boolean moveLeft, moveRight;
     private final ListenerActions listenerActions;
     public final ImageSelection imageSelection;
+    public final BulletService bulletService;
     private final PaintingActions paintingActions;
     private int shooter_width = 50;
     private int shooter_height = 60;
@@ -34,15 +36,22 @@ public class SpaceInvadersUI extends JPanel implements KeyListener {
 
     // Constructor
     public SpaceInvadersUI() {
+
+        // Start the game calculator thread for position/collision updates
+        gameCalculator = new GameCalculator(this);
+        gameCalculator.start();
         // Timer is used only for repainting (UI thread)
         repaintTimer = new Timer(20, e -> repaint()); // 20ms delay for smoother animations
         invaders = new ArrayList<>(); // Need to describe what ArrayList<> is.
         bullets = new ArrayList<>();
         random = new Random();
+        gameCalculator = new GameCalculator(this);
+        gameCalculator.start();
         moveLeft = false;
         moveRight = false;
         listenerActions = new ListenerActions();
         imageSelection = new ImageSelection();
+        bulletService = new BulletService();
         paintingActions = new PaintingActions();
         appMenuBar = new AppMenuBar(this);
         // For debugging
